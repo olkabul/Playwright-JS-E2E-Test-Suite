@@ -1,0 +1,4 @@
+ts.txt
+node_modules/
+test-results/
+.playwright/
