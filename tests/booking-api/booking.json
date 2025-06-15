@@ -1,0 +1,13 @@
+{
+    "bookingData": {
+  "firstname": "Gloria",
+  "lastname": "Pulova",
+  "totalprice": 987,
+  "depositpaid": false,
+  "bookingdates": {
+    "checkin": "2025-07-01",
+    "checkout": "2025-07-10"
+  },
+  "additionalneeds": "crib"
+    }
+}
