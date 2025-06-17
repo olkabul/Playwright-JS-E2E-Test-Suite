@@ -17,9 +17,10 @@ const username = getArgValue("user") || process.env.UI_USER;
 const password = getArgValue("password") || process.env.UI_PASSWORD;
 
 if (!username || !password) {
-  throw new Error(
-    "Username and password must be provided via CLI or environment variables"
+  console.error(
+    "❌ Username and password must be provided via CLI or environment variables."
   );
+  process.exit(1);
 }
 
 /**
@@ -50,10 +51,34 @@ async function loginAndSaveSession() {
   await page.fill(locators.username, username);
   await page.fill(locators.password, password);
   await page.click(locators.loginBtn);
-  await page.waitForSelector(locators.createRoomBtn, { timeout: 5000 });
+
+  // Wait for either success OR failure message
+  const [success, error] = await Promise.all([
+    page
+      .waitForSelector(locators.createRoomBtn, { timeout: 5000 })
+      .catch(() => null),
+    page
+      .waitForSelector(".alert.alert-danger", { timeout: 5000 })
+      .catch(() => null),
+  ]);
+
+  if (error) {
+    console.error("❌ Login failed: Invalid credentials.");
+    await browser.close();
+    process.exit(1); // Exit with failure
+  }
+
+  if (!success) {
+    console.error(
+      "❌ Login failed: Unknown reason (no success or error element found)."
+    );
+    await browser.close();
+    process.exit(1);
+  }
+
+  console.log("✅ Login successful, session saved.");
   await context.storageState({ path: storagePath });
   await browser.close();
-  console.log("✅ Login successful, session saved.");
 }
 
 /**
