@@ -7,5 +7,7 @@ export default defineConfig({
     browserName: "chromium",
     headless: false,
     viewport: { width: 1600, height: 1000 },
+    storageState: "auth.json",
   },
+  globalSetup: "./setup-login.js",
 });

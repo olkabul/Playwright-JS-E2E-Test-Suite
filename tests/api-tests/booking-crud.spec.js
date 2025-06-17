@@ -12,10 +12,24 @@ test.describe("booking lifecicle", async () => {
   let headers;
 
   test.beforeAll("authorization & token", async ({ request }) => {
+    //Defines credentials for the test run
+    function getArgValue(prefix) {
+      const arg = process.argv.find((arg) => arg.startsWith(prefix + ":"));
+      return arg ? arg.split(":")[1] : undefined;
+    }
+
+    const username = getArgValue("user") || process.env.BOOKING_USER;
+    const password = getArgValue("password") || process.env.BOOKING_PASS;
+
+    if (!username || !password) {
+      throw new Error("Booking username and password must be provided");
+    }
+
+    //Creates headers: token, Content-type, Accept
     const response = await request.post(`${baseUrl}${authEp}`, {
       data: {
-        username: process.env.BOOKING_USER,
-        password: process.env.BOOKING_PASS,
+        username,
+        password,
       },
     });
     const body = await response.json();
@@ -32,11 +46,6 @@ test.describe("booking lifecicle", async () => {
     const bookingData = bookingInfoFile.bookingData;
     const response = await request.post(`${baseUrl}${bookingEp}`, {
       data: bookingData,
-      // headers: {
-      //   "Content-Type": "application/json",
-      //   Accept: "application/json",
-      //   Cookie: `token=${token}`,
-      // },
       headers,
     });
     expect(response.status()).toBe(200);
