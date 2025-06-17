@@ -69,6 +69,8 @@ test.describe("CRUD - Room lifecycle", () => {
   test("Negative: create a room with missing data", async ({ page }) => {
     // Navigate to admin page
     await page.goto(`${baseUrl}`);
+
+    //Count the rooms before the test
     await page.waitForSelector("[data-testid='roomlisting']", {
       state: "attached",
     });
@@ -95,7 +97,6 @@ const locators = {
     radio: "#radioCheckbox",
     views: "#viewsCheckbox",
   },
-
   formContainer: "#root-container",
   roomByNumber: (roomNumber) =>
     `[data-testid="roomlisting"]:has(#roomName${roomNumber})`,
@@ -111,6 +112,12 @@ const locators = {
 };
 
 const functions = {
+  /**
+   * Retrieves the list of rooms from the /api/room endpoint,
+   * finds the highest existing room number, and returns the next available number as a string.
+   * @param {Page} page - Playwright Page instance
+   * @returns {Promise<string>} - Next available room number (e.g., "104")
+   */
   async generateRoomNumber(page) {
     const response = await page.waitForResponse(
       (res) => res.url().includes("/api/room") && res.status() === 200
@@ -120,10 +127,18 @@ const functions = {
     return (Math.max(...roomNumbers) + 1).toString();
   },
 
+  /**
+   * Generates a random room price between 200 and 300 (inclusive).
+   * @returns {number} - Random price (e.g., 287)
+   */
   generateRandomPrice() {
     return Math.floor(Math.random() * 101) + 200;
   },
 
+  /**
+   * Generates a fake sentence to be used as a room description. Uses the Faker library.
+   * @returns {string} - A one-sentence room description
+   */
   generateDescription() {
     return faker.lorem.sentences(1);
   },

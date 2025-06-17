@@ -1,45 +1,19 @@
-import { test, request, expect } from "@playwright/test";
-import bookingInfoFile from "./booking.json";
+import { test, expect } from "@playwright/test";
+import bookingInfoFile from "../data/booking.json";
 import dotenv from "dotenv";
 dotenv.config();
+import { getBookingAuthToken } from "../helpers/api-auth.js";
 const baseUrl = "https://restful-booker.herokuapp.com";
 const bookingEp = "/booking";
-const authEp = "/auth";
 
 test.describe("booking lifecicle", async () => {
-  let token;
   let bookingId;
   let headers;
 
-  test.beforeAll("authorization & token", async ({ request }) => {
-    //Defines credentials for the test run
-    function getArgValue(prefix) {
-      const arg = process.argv.find((arg) => arg.startsWith(prefix + ":"));
-      return arg ? arg.split(":")[1] : undefined;
-    }
-
-    const username = getArgValue("user") || process.env.BOOKING_USER;
-    const password = getArgValue("password") || process.env.BOOKING_PASS;
-
-    if (!username || !password) {
-      throw new Error("Booking username and password must be provided");
-    }
-
-    //Creates headers: token, Content-type, Accept
-    const response = await request.post(`${baseUrl}${authEp}`, {
-      data: {
-        username,
-        password,
-      },
-    });
-    const body = await response.json();
-    token = body.token;
-    console.log("The token: ", token);
-    headers = {
-      "Content-Type": "application/json",
-      Accept: "application/json",
-      Cookie: `token=${token}`,
-    };
+  test.beforeAll("authorization", async ({ request }) => {
+    const auth = await getBookingAuthToken(request);
+    headers = auth.headers;
+    console.log("Token: ", auth.token);
   });
 
   test("create new booking", async ({ request }) => {

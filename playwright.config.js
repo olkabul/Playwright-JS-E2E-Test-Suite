@@ -9,5 +9,5 @@ export default defineConfig({
     viewport: { width: 1600, height: 1000 },
     storageState: "auth.json",
   },
-  globalSetup: "./setup-login.js",
+  globalSetup: "./tests/helpers/ui-login.js",
 });

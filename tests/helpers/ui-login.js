@@ -3,6 +3,9 @@ import dotenv from "dotenv";
 dotenv.config();
 import fs from "fs";
 
+const baseUrl = "https://automationintesting.online/admin";
+const storagePath = "auth.json";
+
 //Gets arguments from the user when running tests from CLI
 function getArgValue(prefix) {
   const arg = process.argv.find((arg) => arg.startsWith(prefix + ":"));
@@ -19,16 +22,10 @@ if (!username || !password) {
   );
 }
 
-const baseUrl = "https://automationintesting.online/admin";
-const storagePath = "auth.json";
-
-const locators = {
-  createRoomBtn: "#createRoom",
-  username: "#username",
-  password: "#password",
-  loginBtn: "#doLogin",
-};
-
+/**
+ * Validates an existing session stored in auth.json
+ * Returns true if login-protected element (createRoom button) is visible
+ */
 async function isSessionValid() {
   const browser = await chromium.launch();
   const context = await browser.newContext({ storageState: storagePath });
@@ -42,6 +39,9 @@ async function isSessionValid() {
   return isLoggedIn;
 }
 
+/**
+ * Performs UI login using credentials, then saves the session to auth.json
+ */
 async function loginAndSaveSession() {
   const browser = await chromium.launch();
   const context = await browser.newContext();
@@ -56,6 +56,11 @@ async function loginAndSaveSession() {
   console.log("✅ Login successful, session saved.");
 }
 
+/**
+ * Entry point for Playwright globalSetup
+ * - Reuses valid session from auth.json
+ * - Logs in again if session is missing or invalid
+ */
 async function globalSetup() {
   const hasAuth = fs.existsSync(storagePath);
   const sessionValid = hasAuth ? await isSessionValid() : false;
@@ -67,5 +72,12 @@ async function globalSetup() {
     console.log("✅ Reusing existing valid session.");
   }
 }
+
+const locators = {
+  createRoomBtn: "#createRoom",
+  username: "#username",
+  password: "#password",
+  loginBtn: "#doLogin",
+};
 
 export default globalSetup;
