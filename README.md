@@ -37,13 +37,13 @@ In root directory, create a file named .env and add:
 Then run:
 
 ```sh
-npx playwright test api-tests
+npm run test:api
 ```
 
 #### 2. Using credentials directly in CLI:
 
 ```sh
-BOOKING_USER=<your_username> BOOKING_PASS=<your_password> npx playwright test api-tests
+BOOKING_USER=<your_username> BOOKING_PASS=<your_password> npm run test:api
 ```
 
 ## How to Run UI Tests:
@@ -60,13 +60,13 @@ Create a file named .env and add:
 Then run:
 
 ```sh
-npx playwright test ui-tests
+npm run test:ui
 ```
 
 #### 2. Using credentials directly in CLI:
 
 ```sh
-UI_USER=<your_username> UI_PASSWORD=<your_password> npx playwright test ui-tests
+UI_USER=<your_username> UI_PASSWORD=<your_password> npm run test:ui
 ```
 
 ### Notes

@@ -3,8 +3,8 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "test:ui": "npx playwright test room-ui",
-    "test:api": "npx playwright test booking-api",
+    "test:ui": "npx playwright test ui-tests",
+    "test:api": "npx playwright test api-test",
     "test": "npx playwright test"
   },
   "keywords": [],
@@ -15,6 +15,7 @@
     "@playwright/test": "^1.53.0"
   },
   "dependencies": {
+    "@playwright/test": "^1.42.1",
     "@faker-js/faker": "^9.8.0",
     "dotenv": "^16.5.0"
   }

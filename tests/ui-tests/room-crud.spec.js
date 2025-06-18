@@ -7,7 +7,7 @@ const baseUrl = "https://automationintesting.online/admin";
 test.describe("CRUD - Room lifecycle", () => {
   let myRoomNumber;
 
-  test("Create new room", async ({ page }) => {
+  test("Create a new room and verify", async ({ page }) => {
     await page.goto(`${baseUrl}`);
 
     //Calculate new room's number
@@ -26,7 +26,7 @@ test.describe("CRUD - Room lifecycle", () => {
     );
   });
 
-  test("Update the new room", async ({ page }) => {
+  test("Update the room and verify", async ({ page }) => {
     // Navigate to admin page
     await page.goto(`${baseUrl}`);
     await page.locator(locators.roomByNumber(myRoomNumber)).click();
@@ -54,7 +54,7 @@ test.describe("CRUD - Room lifecycle", () => {
     );
   });
 
-  test("Delete the new room", async ({ page }) => {
+  test("Delete the room and verify", async ({ page }) => {
     // Navigate to admin page
     await page.goto(`${baseUrl}`);
 
@@ -67,7 +67,7 @@ test.describe("CRUD - Room lifecycle", () => {
     );
   });
 
-  test("Negative: create a room with missing data", async ({ page }) => {
+  test("Create room with missing data (negative)", async ({ page }) => {
     // Navigate to admin page
     await page.goto(`${baseUrl}`);
 
