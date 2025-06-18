@@ -6,11 +6,12 @@ on:
   workflow_dispatch:
 
 jobs:
-  install-deps:
-    name: Setup and Install Dependencies
+  api-tests:
+    name: API Tests
     runs-on: ubuntu-latest
-    outputs:
-      cache-key: ${{ steps.deps.outputs.cache-key }}
+    env:
+      BOOKING_USER: ${{ secrets.BOOKING_USER }}
+      BOOKING_PASS: ${{ secrets.BOOKING_PASS }}
     steps:
       - uses: actions/checkout@v3
 
@@ -21,19 +22,6 @@ jobs:
 
       - name: Install dependencies
         run: npm install
-
-      - name: Install Playwright browsers
-        run: npx playwright install --with-deps
-
-  api-tests:
-    name: API Tests
-    needs: install-deps
-    runs-on: ubuntu-latest
-    env:
-      BOOKING_USER: ${{ secrets.BOOKING_USER }}
-      BOOKING_PASS: ${{ secrets.BOOKING_PASS }}
-    steps:
-      - uses: actions/checkout@v3
 
       - name: Run API tests
         run: npm run test:api
@@ -47,13 +35,23 @@ jobs:
 
   ui-tests:
     name: UI Tests
-    needs: install-deps
     runs-on: ubuntu-latest
     env:
       UI_USER: ${{ secrets.UI_USER }}
       UI_PASSWORD: ${{ secrets.UI_PASSWORD }}
     steps:
       - uses: actions/checkout@v3
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: "18"
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Install Playwright browsers
+        run: npx playwright install --with-deps
 
       - name: Run UI tests
         run: npm run test:ui
