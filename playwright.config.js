@@ -1,5 +1,7 @@
 import { defineConfig } from "@playwright/test";
 
+const isCI = !!process.env.CI;
+
 export default defineConfig({
   testDir: "./tests",
   timeout: 30000,
@@ -8,7 +10,7 @@ export default defineConfig({
     video: "retain-on-failure",
     trace: "retain-on-failure",
     browserName: "chromium",
-    headless: false,
+    headless: isCI,
     viewport: { width: 1600, height: 1000 },
     storageState: "auth.json",
   },

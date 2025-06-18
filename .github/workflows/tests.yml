@@ -23,6 +23,11 @@ jobs:
       - name: Install dependencies
         run: npm install
 
+      - name: Create .env file from GitHub Secrets
+        run: |
+          echo "BOOKING_USER=${{ secrets.BOOKING_USER }}" >> .env
+          echo "BOOKING_PASS=${{ secrets.BOOKING_PASS }}" >> .env
+
       - name: Run API tests
         run: npm run test:api
 
