@@ -28,6 +28,9 @@ jobs:
           echo "BOOKING_USER=${{ secrets.BOOKING_USER }}" >> .env
           echo "BOOKING_PASS=${{ secrets.BOOKING_PASS }}" >> .env
 
+      - name: Show .env contents (for debug only - remove later)
+        run: cat .env
+
       - name: Run API tests
         run: npx playwright test api-tests
 
