@@ -4,10 +4,14 @@ export default defineConfig({
   testDir: "./tests",
   timeout: 30000,
   use: {
+    screenshot: "only-on-failure",
+    video: "retain-on-failure",
+    trace: "retain-on-failure",
     browserName: "chromium",
     headless: false,
     viewport: { width: 1600, height: 1000 },
     storageState: "auth.json",
   },
   globalSetup: "./tests/helpers/ui-login.js",
+  reporter: [["html", { outputFolder: "playwright-report", open: "never" }]],
 });
