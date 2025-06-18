@@ -1,0 +1,76 @@
+name: Run Playwright Tests (UI + API)
+
+on:
+  push:
+    branches: [main, failing-tests]
+  workflow_dispatch:
+
+jobs:
+  install-deps:
+    name: Setup and Install Dependencies
+    runs-on: ubuntu-latest
+    outputs:
+      cache-key: ${{ steps.deps.outputs.cache-key }}
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: "18"
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Install Playwright browsers
+        run: npx playwright install --with-deps
+
+  api-tests:
+    name: API Tests
+    needs: install-deps
+    runs-on: ubuntu-latest
+    env:
+      BOOKING_USER: ${{ secrets.BOOKING_USER }}
+      BOOKING_PASS: ${{ secrets.BOOKING_PASS }}
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Run API tests
+        run: npm run test:api
+
+      - name: Upload API test results (if any)
+        if: failure()
+        uses: actions/upload-artifact@v3
+        with:
+          name: api-test-results
+          path: test-results/
+
+  ui-tests:
+    name: UI Tests
+    needs: install-deps
+    runs-on: ubuntu-latest
+    env:
+      UI_USER: ${{ secrets.UI_USER }}
+      UI_PASSWORD: ${{ secrets.UI_PASSWORD }}
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Run UI tests
+        run: npm run test:ui
+
+      - name: Upload UI HTML report
+        if: always()
+        uses: actions/upload-artifact@v3
+        with:
+          name: ui-html-report
+          path: playwright-report/
+
+      - name: Upload screenshots and videos
+        if: failure()
+        uses: actions/upload-artifact@v3
+        with:
+          name: ui-artifacts
+          path: |
+            test-results/
+            **/*.png
+            **/*.webm
