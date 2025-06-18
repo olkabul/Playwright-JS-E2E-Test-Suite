@@ -18,7 +18,7 @@ const password = getArgValue("password") || process.env.UI_PASSWORD;
 
 if (!username || !password) {
   console.error(
-    "❌ Username and password must be provided via CLI or environment variables."
+    "Username and password must be provided via CLI or environment variables."
   );
   process.exit(1);
 }
@@ -63,20 +63,20 @@ async function loginAndSaveSession() {
   ]);
 
   if (error) {
-    console.error("❌ Login failed: Invalid credentials.");
+    console.error("Login failed: Invalid credentials.");
     await browser.close();
     process.exit(1); // Exit with failure
   }
 
   if (!success) {
     console.error(
-      "❌ Login failed: Unknown reason (no success or error element found)."
+      "Login failed: Unknown reason (no success or error element found)."
     );
     await browser.close();
     process.exit(1);
   }
 
-  console.log("✅ Login successful, session saved.");
+  console.log("Login successful, session saved.");
   await context.storageState({ path: storagePath });
   await browser.close();
 }
@@ -91,10 +91,10 @@ async function globalSetup() {
   const sessionValid = hasAuth ? await isSessionValid() : false;
 
   if (!sessionValid) {
-    console.log("🔁 Session expired or missing. Logging in again...");
+    console.log("Session expired or missing. Logging in again...");
     await loginAndSaveSession();
   } else {
-    console.log("✅ Reusing existing valid session.");
+    console.log("Reusing existing valid session.");
   }
 }
 

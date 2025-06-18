@@ -1,8 +1,7 @@
 import { test, expect } from "@playwright/test";
-import bookingInfoFile from "../data/booking.json";
-import dotenv from "dotenv";
-dotenv.config();
 import { getBookingAuthToken } from "../helpers/api-auth.js";
+import { functions } from "../helpers/functions.js";
+
 const baseUrl = "https://restful-booker.herokuapp.com";
 const bookingEp = "/booking";
 
@@ -13,11 +12,10 @@ test.describe("booking lifecicle", async () => {
   test.beforeAll("authorization", async ({ request }) => {
     const auth = await getBookingAuthToken(request);
     headers = auth.headers;
-    console.log("Token: ", auth.token);
   });
 
   test("create new booking", async ({ request }) => {
-    const bookingData = bookingInfoFile.bookingData;
+    const bookingData = functions.generateBookingDataAndSave();
     const response = await request.post(`${baseUrl}${bookingEp}`, {
       data: bookingData,
       headers,
@@ -25,8 +23,6 @@ test.describe("booking lifecicle", async () => {
     expect(response.status()).toBe(200);
     const body = await response.json();
     bookingId = body.bookingid;
-    console.log("The booking id is: ", bookingId);
-    console.log("The created booking is: ", body);
   });
 
   test("validate created booking", async ({ request }) => {
