@@ -23,8 +23,11 @@ jobs:
       - name: Install dependencies
         run: npm install
 
-      - name: Run API tests
-        run: BOOKING_USER=${{ secrets.BOOKING_USER }} BOOKING_PASS=${{ secrets.BOOKING_PASS }} npx playwright test api-tests
+      - name: Run API tests with env block
+        run: npx playwright test api-tests
+        env:
+          BOOKING_USER: ${{ secrets.BOOKING_USER }}
+          BOOKING_PASS: ${{ secrets.BOOKING_PASS }}
 
       - name: Upload API test results (if any)
         if: failure()
