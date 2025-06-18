@@ -1,6 +1,11 @@
 # QA Automation Task
 ## RESTFUL items lifecycle
 
+### Project Setup
+
+This project was created using **Playwright** and **JavaScript**. All tests are written in JS using Playwright's built-in test runner (`@playwright/test`).
+
+
 This project includes two sets of tests:
 
 1. API tests: test the backend (create, update, delete bookings)
@@ -11,6 +16,13 @@ This project includes two sets of tests:
 * Node.js must be installed
 * npm (comes with Node.js)
 * Run `npm install` in the project folder to install required packages
+
+  ### Authentication Flows
+
+* **UI Tests**: Authentication is done by logging in through the browser using credentials. The * `auth.json` file is automatically created after a successful UI login and is reused for future sessions to avoid repeated logins.
+
+* **API Tests**: Authentication is done using basic auth with `BOOKING_USER` and `BOOKING_PASS`, provided either via `.env` or CLI.
+
 
 ## How to Run API Tests:
 
@@ -58,7 +70,6 @@ UI_USER=<your_username> UI_PASSWORD=<your_password> npx playwright test ui-tests
 
 ### Notes
 
-* `auth.json` is automatically created after a successful UI login and is reused for future sessions to avoid repeated logins.
 * `.env` and `auth.json` are included in `.gitignore` and will not be pushed to Git.
 * The public API (restful-booker.herokuapp.com) may be unstable or slow sometimes.
 
