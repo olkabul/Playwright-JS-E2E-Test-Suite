@@ -24,7 +24,10 @@ jobs:
         run: npm install
 
       - name: Run API tests
-        run: npx playwright test api-tests
+        env:
+          BOOKING_USER: ${{ secrets.BOOKING_USER }}
+          BOOKING_PASS: ${{ secrets.BOOKING_PASS }}
+        run: npm run test:api
 
       - name: Upload API test results (if any)
         if: failure()
