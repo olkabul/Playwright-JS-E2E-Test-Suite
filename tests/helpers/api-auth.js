@@ -24,6 +24,10 @@ function getArgValue(prefix) {
 export async function getBookingAuthToken(request) {
   const username = getArgValue("user") || process.env.BOOKING_USER;
   const password = getArgValue("password") || process.env.BOOKING_PASS;
+
+  console.log("BOOKING_USER:", process.env.BOOKING_USER);
+  console.log("BOOKING_PASS:", process.env.BOOKING_PASS);
+
   if (!username || !password) {
     throw new Error("Booking username and password must be provided");
   }
