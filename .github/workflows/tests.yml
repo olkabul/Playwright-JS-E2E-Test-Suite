@@ -12,6 +12,7 @@ jobs:
     env:
       BOOKING_USER: ${{ secrets.BOOKING_USER }}
       BOOKING_PASS: ${{ secrets.BOOKING_PASS }}
+      TEST_TYPE: api
     steps:
       - uses: actions/checkout@v3
 
@@ -24,10 +25,7 @@ jobs:
         run: npm install
 
       - name: Run API tests
-        env:
-          BOOKING_USER: ${{ secrets.BOOKING_USER }}
-          BOOKING_PASS: ${{ secrets.BOOKING_PASS }}
-        run: npm run test:api
+        run: npx playwright test
 
       - name: Upload API test results (if any)
         if: failure()
@@ -42,6 +40,7 @@ jobs:
     env:
       UI_USER: ${{ secrets.UI_USER }}
       UI_PASSWORD: ${{ secrets.UI_PASSWORD }}
+      TEST_TYPE: ui
     steps:
       - uses: actions/checkout@v3
 
@@ -57,7 +56,7 @@ jobs:
         run: npx playwright install --with-deps
 
       - name: Run UI tests
-        run: npm run test:ui
+        run: npx playwright test
 
       - name: Upload UI HTML report
         if: always()
