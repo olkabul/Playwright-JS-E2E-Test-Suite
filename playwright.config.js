@@ -1,4 +1,9 @@
 import { defineConfig } from "@playwright/test";
+import dotenv from "dotenv";
+import path from "path";
+
+// Load .env from project root
+dotenv.config({ path: path.resolve(process.cwd(), ".env") });
 
 const isCI = !!process.env.CI;
 
