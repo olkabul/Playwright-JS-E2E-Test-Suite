@@ -40,7 +40,7 @@ jobs:
 
       - name: Upload API test results (if any)
         if: failure()
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: api-test-results
           path: test-results/
@@ -60,14 +60,14 @@ jobs:
 
       - name: Upload UI HTML report
         if: always()
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: ui-html-report
           path: playwright-report/
 
       - name: Upload screenshots and videos
         if: failure()
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: ui-artifacts
           path: |
