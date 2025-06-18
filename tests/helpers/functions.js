@@ -32,6 +32,19 @@ export const functions = {
     return faker.lorem.sentences(1);
   },
 
+  /**
+   * Generates a fake booking object with randomized data for testing.
+   * This includes name, price, deposit status, and additional needs.
+   * Dates are fixed to simplify assertions.
+   *
+   * @returns {Object} booking - A valid booking object for API creation
+   * @property {string} booking.firstname - Random first name
+   * @property {string} booking.lastname - Random last name
+   * @property {number} booking.totalprice - Random total price between 100–1000
+   * @property {boolean} booking.depositpaid - Random boolean
+   * @property {Object} booking.bookingdates - Static checkin and checkout dates
+   * @property {string} booking.additionalneeds - Random extra request
+   */
   generateBookingDataAndSave() {
     const booking = {
       firstname: faker.person.firstName(),
