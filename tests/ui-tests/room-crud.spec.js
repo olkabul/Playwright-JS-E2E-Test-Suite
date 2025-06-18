@@ -67,7 +67,7 @@ test.describe("CRUD - Room lifecycle", () => {
     );
   });
 
-  test("Create room with missing data (negative)", async ({ page }) => {
+  test.only("Create room with missing data (negative)", async ({ page }) => {
     // Navigate to admin page
     await page.goto(`${baseUrl}`);
 
@@ -81,7 +81,7 @@ test.describe("CRUD - Room lifecycle", () => {
 
     //Verify the room not created
     const alert = page.locator(locators.alertMsg);
-    await expect(alert).toContainText("Room name must be set");
+    await expect(alert).toContainText("This error for demo only");
     const roomsAfter = await page.locator(locators.roomListing).count();
     expect(roomsAfter).toBe(roomsBefore);
   });

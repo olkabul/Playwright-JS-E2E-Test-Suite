@@ -1,0 +1,76 @@
+# Page snapshot
+
+```yaml
+- navigation:
+  - link "Restful Booker Platform Demo":
+    - /url: /
+  - list:
+    - listitem:
+      - link "Rooms":
+        - /url: /admin/rooms
+    - listitem:
+      - link "Report":
+        - /url: /admin/report
+    - listitem:
+      - link "Branding":
+        - /url: /admin/branding
+    - listitem:
+      - link "Messages 38":
+        - /url: /admin/message
+  - list:
+    - listitem:
+      - link "Front Page":
+        - /url: /
+    - listitem:
+      - button "Logout"
+- paragraph: "Room #"
+- paragraph: Type
+- paragraph: Accessible
+- paragraph: Price
+- paragraph: Room details
+- paragraph: "101"
+- paragraph: Single
+- paragraph: "true"
+- paragraph: "100"
+- paragraph: TV, WiFi, Safe
+- text: 
+- paragraph: "102"
+- paragraph: Double
+- paragraph: "true"
+- paragraph: "150"
+- paragraph: TV, Radio, Safe
+- text: 
+- paragraph: "103"
+- paragraph: Suite
+- paragraph: "true"
+- paragraph: "225"
+- paragraph: Radio, WiFi, Safe
+- text: 
+- textbox
+- combobox:
+  - option "Single" [selected]
+  - option "Twin"
+  - option "Double"
+  - option "Family"
+  - option "Suite"
+- combobox:
+  - option "false" [selected]
+  - option "true"
+- textbox
+- checkbox "WiFi"
+- text: WiFi
+- checkbox "TV"
+- text: TV
+- checkbox "Radio"
+- text: Radio
+- checkbox "Refreshments"
+- text: Refreshments
+- checkbox "Safe"
+- text: Safe
+- checkbox "Views"
+- text: Views
+- button "Create"
+- paragraph: Room name must be set
+- paragraph: must be greater than or equal to 1
+- alert
+```
