@@ -5,7 +5,7 @@ import { functions } from "../helpers/functions.js";
 const baseUrl = "https://restful-booker.herokuapp.com";
 const bookingEp = "/booking";
 
-test.describe("booking lifecicle", async () => {
+test.describe("booking lifecycle", () => {
   let bookingId;
   let headers;
 

@@ -3,9 +3,9 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "test:ui": "npx playwright test ui-tests",
-    "test:api": "npx playwright test api-test",
-    "test": "npx playwright test"
+    "test": "npx playwright test",
+    "test:ui": "cross-env TEST_TYPE=ui npx playwright test",
+    "test:api": "cross-env TEST_TYPE=api npx playwright test"
   },
   "keywords": [],
   "author": "",
@@ -13,6 +13,7 @@
   "description": "",
   "devDependencies": {
     "@playwright/test": "^1.53.0",
+    "cross-env": "^7.0.3",
     "playwright": "^1.53.0"
   },
   "dependencies": {
