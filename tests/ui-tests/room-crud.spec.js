@@ -55,7 +55,9 @@ test.describe("CRUD - Room lifecycle", () => {
     await roomsPage.createRoomBtn.click();
 
     // Verify the room was not created
-    await expect(roomsPage.alertMsg).toContainText("Room name must be set");
+    await expect(roomsPage.alertMsg).toContainText(
+      "This text was added for failing tests demo"
+    );
     const roomsAfter = await roomsPage.countRooms();
     expect(roomsAfter).toBe(roomsBefore);
   });
