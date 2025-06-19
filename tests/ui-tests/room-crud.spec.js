@@ -1,7 +1,7 @@
 import { test, expect } from "@playwright/test";
 import { functions } from "../helpers/functions.js";
 import { RoomsPage } from "../../pages/rooms.page.js";
-import { EditRoomPage } from "../../pages/editroom.page.js";
+import { EditRoomPage } from "../../pages/editRoom.page.js";
 
 const baseUrl = "https://automationintesting.online/admin";
 
