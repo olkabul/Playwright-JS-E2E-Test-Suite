@@ -19,17 +19,14 @@ test.describe("CRUD - Room lifecycle", () => {
 
     const roomOptions = { tv: true, radio: true };
     await roomsPage.createRoom(myRoomNumber, randomPrice, roomOptions);
-    await expect(roomsPage.roomByNumber(myRoomNumber)).toHaveCount(1);
 
-    //Verify room created
-    await expect(roomsPage.roomByNumber(myRoomNumber)).toHaveCount(1);
+    await expect(roomsPage.roomByNumber(myRoomNumber)).toHaveCount(1); //Verify room created
   });
 
   test("Update the room and verify", async ({ page }) => {
     const editRoomPage = new EditRoomPage(page);
     const roomsPage = new RoomsPage(page);
 
-    // Navigate to admin page
     await page.goto(`${baseUrl}`);
     await roomsPage.roomByNumber(myRoomNumber).click();
     await expect(editRoomPage.formContainer).toContainText(myRoomNumber);
