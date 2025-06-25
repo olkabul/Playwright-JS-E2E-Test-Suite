@@ -1,106 +1,92 @@
-# QA Automation Task
+# Playwright JS UI & API E2E Automation Suite
 
-## RESTFUL items lifecycle
+<p align="center">
+  <img src="https://img.shields.io/badge/Playwright-Test%20Automation-green?style=flat-square" />
+  <img src="https://img.shields.io/badge/Tech-JavaScript-blue?style=flat-square" />
+  <img src="https://img.shields.io/badge/Type-UI%20%26%20API%20E2E-orange?style=flat-square" />
+</p>
 
-### Project Setup
+## What this project does
 
-This project was created using **Playwright** and **JavaScript**. All tests are written in JS using Playwright's built-in test runner (`@playwright/test`).
+This project shows how to test both API and UI using Playwright and JavaScript. It uses Page Object Model for UI and basic auth for API. I wrote this project as a full end-to-end example that runs from CLI and GitHub Actions.
 
-This project includes two sets of tests:
+## How to start
 
-1. API tests: test the backend (create, update, delete bookings)
-2. UI tests: test the admin web interface using browser actions
+1. Clone the repo:
 
-The structure follows **Page Object Model (POM)** for UI automation, separating test logic from page interactions for better readability and maintainability.
+```bash
+git clone https://github.com/YOUR_USERNAME/playwright-js-e2e-suite.git
+cd playwright-js-e2e-suite
+```
 
-### Prerequisites:
+2. Install everything:
 
-- Node.js must be installed
-- npm (comes with Node.js)
-- Run `npm install` in the project folder to install required packages
+```bash
+npm install
+npx playwright install
+```
 
-### Authentication Flows
+3. Copy the example env file:
 
-- **UI Tests**: Authentication is handled by logging into the admin dashboard using provided credentials. A file named `auth.json` is automatically generated upon successful login and is reused in subsequent test runs. This prevents repeated logins and speeds up execution.
+```bash
+cp .env.template .env
+```
 
-- **API Tests**: Authentication uses basic auth. Provide credentials either via `.env` or directly in CLI as environment variables:
-  - `BOOKING_USER`
-  - `BOOKING_PASS`
+Or just create `.env` yourself and add credentials.
 
-> Note: The project follows best practices and does not store any sensitive data. Authentication details must be passed via environment variables or `.env`.
+## Run tests
 
----
-
-### How Environment Selection Works
-
-This project supports two types of tests: UI and API. To control which type to run, we use an environment variable `TEST_TYPE`:
-
-- `TEST_TYPE=ui` → runs browser-based tests
-- `TEST_TYPE=api` → runs API-only tests
-
-These are already wired into `package.json` scripts using `cross-env`, so you don’t need to set it manually.
-
----
-
-## How to Run API Tests:
-
-You can run API tests in two ways:
-
-#### 1. Using `.env` file:
-
-In root directory, create a file named `.env` and add:
+### UI Tests
 
 ```env
-BOOKING_USER=<your_username>
-BOOKING_PASS=<your_password>
+UI_USER=admin
+UI_PASSWORD=password
 ```
 
-Then run:
-
-```sh
-npm run test:api
-```
-
-#### 2. Using credentials directly in CLI:
-
-```sh
-BOOKING_USER=<your_username> BOOKING_PASS=<your_password> npm run test:api
-```
-
----
-
-## How to Run UI Tests:
-
-You can also run UI tests in two ways:
-
-#### 1. Using `.env` file:
-
-```env
-UI_USER=<your_username>
-UI_PASSWORD=<your_password>
-```
-
-Then run:
-
-```sh
+```bash
 npm run test:ui
 ```
 
-#### 2. Using credentials directly in CLI:
+### API Tests
 
-```sh
-UI_USER=<your_username> UI_PASSWORD=<your_password> npm run test:ui
+```env
+BOOKING_USER=admin
+BOOKING_PASS=password123
+```
+
+```bash
+npm run test:api
+```
+
+You can also pass credentials from CLI like this:
+
+```bash
+BOOKING_USER=admin BOOKING_PASS=password123 npm run test:api
+```
+
+## What is tested
+
+- API: create, get, update, delete booking
+- UI: add, update, delete room from admin dashboard
+
+## Notes
+
+- The public API can sometimes be slow or unstable.
+- GitHub Actions runs the tests automatically when I push code.
+- Playwright HTML report is created for each test run.
+
+## How it looks inside
+
+```
+.
+├── api-tests/             # API test specs
+├── ui-tests/              # UI test specs
+├── pages/                 # Page Object files
+├── utils/                 # Helper functions
+├── .env.template          # Example env file
+└── playwright.config.js   # Playwright settings
 ```
 
 ---
 
-### Notes
-
-- `.env` and `auth.json` are included in `.gitignore` and will not be pushed to Git.
-- The public API (restful-booker.herokuapp.com) may be unstable or slow sometimes. If a test fails, it may be due to rate limits or service availability.
-
----
-
-### GitHub Actions
-
-This project includes GitHub Actions workflow that automatically runs both UI and API tests on each `push` (or manually in Actions tab). The HTML report is generated and attached as an artifact. Failed test reports are saved and zipped separately for analysis.
+This project helped me practice automation with real tools and real structure. Hope it helps someone else too.
